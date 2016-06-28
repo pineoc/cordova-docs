@@ -29,65 +29,79 @@ toc_title: Customize icons
 
 CLI에서 근무를 통해 애플리케이션 아이콘을 정의할 수 있습니다 때 `<icon>` 요소 ( `config.xml` ). 아이콘을 지정 하지 않으면 아파치 코르도바 로고가 사용 됩니다.
 
-        <icon src="res/ios/icon.png" platform="ios" width="57" height="57" density="mdpi" />
-    
+```xml
+<icon src="res/ios/icon.png" platform="ios" width="57" height="57" density="mdpi" />
+```
 
-src: (필수) 이미지 파일을 프로젝트 디렉터리의 상대적인 위치를 지정 합니다
-
-플랫폼: (선택 사항) 대상 플랫폼
-
-폭: (선택 사항) 아이콘 너비 (픽셀)
-
-높이: (선택 사항) 아이콘 높이 (픽셀)
-
-밀도: 특정 일 (선택 사항) 안드로이드 아이콘의 밀도 지정 합니다.
+속성           | 설명
+--------------|--------------------------------------------------------------------------------
+src           | *필수* <br/> 이미지 파일을 프로젝트 디렉터리의 상대적인 위치를 지정 합니다
+platform      | *옵션* <br/> 대상 플랫폼
+width         | *옵션* <br/> 아이콘 너비 (픽셀)
+height        | *옵션* <br/> 아이콘 높이 (픽셀)
+density       | *옵션* <br/> ==Android== <br/> 아이콘의 density
+target        | *옵션* <br/> ==Windows== <br/> Destination filename for the image file and all its' MRT companions
 
 다음 구성은 모든 플랫폼에 사용할 수 있는 단일 기본 아이콘을 정의 하기 위해 사용할 수 있습니다.
-
+```xml
         <icon src="res/icon.png" />
-    
+```
 
 각 플랫폼에 대해 다른 화면 해상도 맞게 설정 픽셀 완벽한 아이콘을 정의할 수 있습니다.
 
-아마존 Fire 운영 체제
-
+##아마존 Fire 운영 체제
+```xml
          <platform name="amazon-fireos">
                   <icon src="res/android/ldpi.png" density="ldpi" />
                   <icon src="res/android/mdpi.png" density="mdpi" />
                   <icon src="res/android/hdpi.png" density="hdpi" />
                   <icon src="res/android/xhdpi.png" density="xhdpi" />
          </platform>
-    
+```
 
-안드로이드
+##안드로이드
+##Android
+```xml
+    <platform name="android">
+        <!--
+            ldpi    : 36x36 px
+            mdpi    : 48x48 px
+            hdpi    : 72x72 px
+            xhdpi   : 96x96 px
+            xxhdpi  : 144x144 px
+            xxxhdpi : 192x192 px
+        -->
+        <icon src="res/android/ldpi.png" density="ldpi" />
+        <icon src="res/android/mdpi.png" density="mdpi" />
+        <icon src="res/android/hdpi.png" density="hdpi" />
+        <icon src="res/android/xhdpi.png" density="xhdpi" />
+        <icon src="res/android/xxhdpi.png" density="xxhdpi" />
+        <icon src="res/android/xxxhdpi.png" density="xxxhdpi" />
+    </platform>
+```
+###참고 자료
+- [Android icon guide](https://www.google.com/design/spec/style/icons.html)
+- [Android - Supporting multiple screens](http://developer.android.com/guide/practices/screens_support.html)
 
-         <platform name="android">
-                  <icon src="res/android/ldpi.png" density="ldpi" />
-                  <icon src="res/android/mdpi.png" density="mdpi" />
-                  <icon src="res/android/hdpi.png" density="hdpi" />
-                  <icon src="res/android/xhdpi.png" density="xhdpi" />
-         </platform>
-    
-
-BlackBerry10
-
+##BlackBerry10
+```xml
          <platform name="blackberry10">
                   <icon src="res/bb10/icon-86.png" />
                   <icon src="res/bb10/icon-150.png" />
          </platform>
-    
+```
 
 여러 크기 및 로케일을 타겟팅에 대한 블랙베리의 설명서를 참조 하십시오. [http://developer.blackberry.com/html5/documentation/icon_element.html]
 
-Firefox 운영 체제
-
+##Firefox 운영 체제
+```xml
          <platform name="firefoxos">
                   <icon src="res/ff/logo.png" width="60" height="60" />
          </platform>
-    
+```
 
-iOS
-
+##iOS
+```xml
          <platform name="ios">
                   <!-- iOS 8.0+ -->
                   <!-- iPhone 6 Plus  -->
@@ -116,32 +130,32 @@ iOS
                   <icon src="res/ios/icon-50.png" width="50" height="50" />
                   <icon src="res/ios/icon-50@2x.png" width="100" height="100" />
          </platform>
-    
+```
 
-Tizen
-
+##Tizen
+```xml
          <platform name="tizen">
                   <icon src="res/tizen/icon-128.png" width="128" height="128" />
          </platform>
-    
+```
 
-윈도우 Phone8
-
+##윈도우 Phone8
+```xml
          <platform name="wp8">
                   <icon src="res/wp/ApplicationIcon.png" width="99" height="99" />
                   <!-- tile image -->
                   <icon src="res/wp/Background.png" width="159" height="159" />
          </platform>
-    
+```
 
-Windows8
-
+##Windows8
+```xml
          <platform name="windows8">
                   <icon src="res/windows8/logo.png" width="150" height="150" />
                   <icon src="res/windows8/smalllogo.png" width="30" height="30" />
                   <icon src="res/windows8/storelogo.png" width="50" height="50" />
          </platform>
-    
+```
 
 ## CLI에서 시작 화면을 구성
 
@@ -150,7 +164,7 @@ Windows8
 # 예제 구성
 
 "Src" 특성의 값은 프로젝트 디렉터리를 기준으로 그리고 www 디렉토리를 주의 하십시오. 원하는 소스 이미지 이름을 지정할 수 있습니다. 응용 프로그램에서 내부 이름은 코르도바에 의해 결정 됩니다.
-
+```xml
     <platform name="android">
         <!-- you can use any density that exists in the Android project -->
         <splash src="res/screen/android/splash-land-hdpi.png" density="land-hdpi"/>
@@ -196,7 +210,7 @@ Windows8
     
     
     <preference name="SplashScreenDelay" value="10000" />
-    
+```
 
 # 지원 되는 플랫폼
 
