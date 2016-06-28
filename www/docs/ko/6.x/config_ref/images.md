@@ -23,16 +23,16 @@ toc_title: Customize icons
 
 # 아이콘 및 시작 화면
 
-이 섹션에서는 응용 프로그램의 아이콘과 코르도바 CLI (명령줄 인터페이스에서 설명)에서 작업할 때 둘 다 다양 한 플랫폼에 대 한 선택적 스플래시 화면을 구성 하는 방법 (플랫폼 가이드에 자세히 설명) 플랫폼 SDK 도구를 사용 하 여 또는.
+이 섹션에서는 다양 한 플랫폼에 대 한 응용 프로그램의 아이콘을 구성 하는 방법을 보여 줍니다. 시작 화면에 대한 지원은 자체 코르도바 플러그인으로 이동 했습니다. 구성 옵션은 [Splashscreen plugin docs][splashscreen_plugin] 에서 찾을 수 있습니다.
 
 ## CLI 구성 아이콘
 
-CLI에서 근무를 통해 애플 리 케이 션 아이콘을 정의할 수 있습니다 때 `<icon>` 요소 ( `config.xml` ). 아이콘을 지정 하지 않으면 아파치 코르도바 로고 사용 됩니다.
+CLI에서 근무를 통해 애플리케이션 아이콘을 정의할 수 있습니다 때 `<icon>` 요소 ( `config.xml` ). 아이콘을 지정 하지 않으면 아파치 코르도바 로고가 사용 됩니다.
 
         <icon src="res/ios/icon.png" platform="ios" width="57" height="57" density="mdpi" />
     
 
-src: (필수) 이미지 파일을 프로젝트 디렉터리에 상대적인 위치를 지정 합니다
+src: (필수) 이미지 파일을 프로젝트 디렉터리의 상대적인 위치를 지정 합니다
 
 플랫폼: (선택 사항) 대상 플랫폼
 
@@ -40,16 +40,16 @@ src: (필수) 이미지 파일을 프로젝트 디렉터리에 상대적인 위�
 
 높이: (선택 사항) 아이콘 높이 (픽셀)
 
-밀도: 특정 일 (선택 사항) 안 드 로이드 아이콘 밀도 지정 합니다.
+밀도: 특정 일 (선택 사항) 안드로이드 아이콘의 밀도 지정 합니다.
 
 다음 구성은 모든 플랫폼에 사용할 수 있는 단일 기본 아이콘을 정의 하기 위해 사용할 수 있습니다.
 
         <icon src="res/icon.png" />
     
 
-각 플랫폼에 대해 다른 화면 해상도 맞게 설정 픽셀 완벽 한 아이콘을 정의할 수 있습니다.
+각 플랫폼에 대해 다른 화면 해상도 맞게 설정 픽셀 완벽한 아이콘을 정의할 수 있습니다.
 
-아마존 화재 운영 체제
+아마존 Fire 운영 체제
 
          <platform name="amazon-fireos">
                   <icon src="res/android/ldpi.png" density="ldpi" />
@@ -59,7 +59,7 @@ src: (필수) 이미지 파일을 프로젝트 디렉터리에 상대적인 위�
          </platform>
     
 
-안 드 로이드
+안드로이드
 
          <platform name="android">
                   <icon src="res/android/ldpi.png" density="ldpi" />
@@ -77,7 +77,7 @@ BlackBerry10
          </platform>
     
 
-여러 크기 및 로케일을 타겟팅에 대 한 블랙베리의 설명서를 참조 하십시오. [http://developer.blackberry.com/html5/documentation/icon_element.html]
+여러 크기 및 로케일을 타겟팅에 대한 블랙베리의 설명서를 참조 하십시오. [http://developer.blackberry.com/html5/documentation/icon_element.html]
 
 Firefox 운영 체제
 
@@ -145,7 +145,7 @@ Windows8
 
 ## CLI에서 시작 화면을 구성
 
-최상위 수준에서 `config.xml` 파일 (아니라 하나에 `platforms` ), 여기에 지정 된 것과 같은 구성 요소를 추가 합니다.
+최상위 수준에서 `config.xml` 파일 (아니라 하나에 `platforms` ), 여기에 지정된 것과 같은 구성 요소를 추가 합니다.
 
 # 예제 구성
 
@@ -211,4 +211,4 @@ Windows8
 
 # Splashscreen 플러그인
 
-또한 프로그래밍 방식으로 표시 하 고 응용 프로그램 실행 https://github.com/apache/cordova-plugin-splashscreen 동안 시작 화면을 숨기는 데 사용할 수 있는 특별 한 스플래시 화면 플러그인을 제공 하는 아파치 코르도바
+또한 프로그래밍 방식으로 표시하고 응용 프로그램 실행 https://github.com/apache/cordova-plugin-splashscreen 동안 시작 화면을 숨기는 데 사용할 수 있는 특별한 스플래시 화면 플러그인을 제공 하는 아파치 코르도바
