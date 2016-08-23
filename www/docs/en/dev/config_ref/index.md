@@ -63,6 +63,7 @@ Attributes(type) <br/> <span class="sub-header">Only for platform:</span> | Desc
 id(string) | *Required* <br/> Specifies the app's reverse-domain identifier, and the `version` its full version number expressed in major/minor/patch notation.
 version(string) | *Required* <br/> Full version number expressed in major/minor/patch notation.
 android-versionCode(string) <br/> ==Android== | Alternative version for Android. Sets the [version code](http://developer.android.com/tools/publishing/versioning.html) for the application. See [the Android guide](../guide/platforms/android/index.html#setting-the-version-code) for information on how this attribute may be modified.
+defaultlocale <br /> ==iOS== | Specified the default language of the app, as an IANA language code.
 ios-CFBundleVersion(string) <br/> ==iOS== | Alternative version for iOS. For further details, see [iOS versioning](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-102364).
 osx-CFBundleVersion(string) <br/> ==OS X== | Alternative version for OS X. For further details, see [OS X versioning](https://developer.apple.com/library/prerelease/mac/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-102364).
 windows-packageVersion(string) <br/> ==Windows== | Alternative version for Windows. For futher details, see [Windows versioning](https://msdn.microsoft.com/en-us/library/windows/apps/br211441.aspx)
@@ -74,7 +75,7 @@ Examples:
 
 ```xml
 <!-- Android -->
-<widget id="io.cordova.hellocordova" version="0.0.1" android-versionCode="0.1.3" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="io.cordova.hellocordova" version="0.0.1" android-versionCode="13" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
 </widget>
 
 <!-- iOS -->
@@ -160,11 +161,11 @@ Examples:
 
 ```xml
 <widget ...>
-   <access origin="*"></content>
+   <access origin="*"></access>
 </widget>
 
 <widget ...>
-   <access origin="http://google.com"></content>
+   <access origin="http://google.com"></access>
 </widget>
 ```
 
