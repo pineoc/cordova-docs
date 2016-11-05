@@ -1,5 +1,6 @@
 ---
-edit_link: 'https://github.com/apache/cordova-plugin-network-information/blob/master/README.md'
+edit_link: >-
+  https://github.com/apache/cordova-plugin-network-information/blob/master/README.md
 title: Network Information
 plugin_name: cordova-plugin-network-information
 plugin_version: master
@@ -27,7 +28,9 @@ description: Get information about wireless connectivity.
 #         under the License.
 -->
 
-[![Build Status](https://travis-ci.org/apache/cordova-plugin-network-information.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-network-information)
+|Android|iOS| Windows 8.1 Store | Windows 8.1 Phone | Windows 10 Store | Travis CI |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android,PLUGIN=cordova-plugin-network-information)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android,PLUGIN=cordova-plugin-network-information/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios,PLUGIN=cordova-plugin-network-information)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios,PLUGIN=cordova-plugin-network-information/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-8.1-store,PLUGIN=cordova-plugin-network-information)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-8.1-store,PLUGIN=cordova-plugin-network-information/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-8.1-phone,PLUGIN=cordova-plugin-network-information)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-8.1-phone,PLUGIN=cordova-plugin-network-information/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-network-information)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-network-information/)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-network-information.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-network-information)|
 
 # cordova-plugin-network-information
 
@@ -85,24 +88,25 @@ connection state, and type of connection.
 
 ### Quick Example
 
-    function checkConnection() {
-        var networkState = navigator.connection.type;
+```js
+function checkConnection() {
+    var networkState = navigator.connection.type;
 
-        var states = {};
-        states[Connection.UNKNOWN]  = 'Unknown connection';
-        states[Connection.ETHERNET] = 'Ethernet connection';
-        states[Connection.WIFI]     = 'WiFi connection';
-        states[Connection.CELL_2G]  = 'Cell 2G connection';
-        states[Connection.CELL_3G]  = 'Cell 3G connection';
-        states[Connection.CELL_4G]  = 'Cell 4G connection';
-        states[Connection.CELL]     = 'Cell generic connection';
-        states[Connection.NONE]     = 'No network connection';
+    var states = {};
+    states[Connection.UNKNOWN]  = 'Unknown connection';
+    states[Connection.ETHERNET] = 'Ethernet connection';
+    states[Connection.WIFI]     = 'WiFi connection';
+    states[Connection.CELL_2G]  = 'Cell 2G connection';
+    states[Connection.CELL_3G]  = 'Cell 3G connection';
+    states[Connection.CELL_4G]  = 'Cell 4G connection';
+    states[Connection.CELL]     = 'Cell generic connection';
+    states[Connection.NONE]     = 'No network connection';
 
-        alert('Connection type: ' + states[networkState]);
-    }
+    alert('Connection type: ' + states[networkState]);
+}
 
-    checkConnection();
-
+checkConnection();
+```
 
 ### API Change
 
@@ -164,12 +168,13 @@ attach an event listener once the `deviceready` event fires.
 
 ### Quick Example
 
-    document.addEventListener("offline", onOffline, false);
+```js
+document.addEventListener("offline", onOffline, false);
 
-    function onOffline() {
-        // Handle the offline event
-    }
-
+function onOffline() {
+    // Handle the offline event
+}
+```
 
 ### iOS Quirks
 
@@ -203,12 +208,13 @@ attach an event listener once the `deviceready` event fires.
 
 ### Quick Example
 
-    document.addEventListener("online", onOnline, false);
+```js
+document.addEventListener("online", onOnline, false);
 
-    function onOnline() {
-        // Handle the online event
-    }
-
+function onOnline() {
+    // Handle the online event
+}
+```
 
 ### iOS Quirks
 
@@ -233,7 +239,6 @@ To start with, create a new FileEntry object (data.txt) to use for sample data. 
 >*Note* This code example requires the File plugin.
 
 ```js
-
 var dataFileEntry;
 
 function createSomeData() {
@@ -339,5 +344,5 @@ function onOffline() {
     console.log("lost connection");
 }
 ```
-
+ 
 [Apache Cordova issue tracker]: https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20Network%20Information%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC

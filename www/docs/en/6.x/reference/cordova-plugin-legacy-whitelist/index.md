@@ -1,5 +1,6 @@
 ---
-edit_link: 'https://github.com/apache/cordova-plugin-legacy-whitelist/blob/master/README.md'
+edit_link: >-
+  https://github.com/apache/cordova-plugin-legacy-whitelist/blob/master/README.md
 title: Legacy Whitelist
 plugin_name: cordova-plugin-legacy-whitelist
 plugin_version: master

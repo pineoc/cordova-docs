@@ -27,7 +27,9 @@ description: Upload and download files.
 #         under the License.
 -->
 
-[![Build Status](https://travis-ci.org/apache/cordova-plugin-file-transfer.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-file-transfer)
+|Android|iOS| Windows 8.1 Store | Windows 8.1 Phone | Windows 10 Store | Travis CI |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android,PLUGIN=cordova-plugin-file-transfer)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android,PLUGIN=cordova-plugin-file-transfer/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios,PLUGIN=cordova-plugin-file-transfer)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios,PLUGIN=cordova-plugin-file-transfer/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-8.1-store,PLUGIN=cordova-plugin-file-transfer)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-8.1-store,PLUGIN=cordova-plugin-file-transfer/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-8.1-phone,PLUGIN=cordova-plugin-file-transfer)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-8.1-phone,PLUGIN=cordova-plugin-file-transfer/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-file-transfer)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-file-transfer/)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-file-transfer.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-file-transfer)|
 
 # cordova-plugin-file-transfer
 
@@ -42,7 +44,11 @@ function onDeviceReady() {
 }
 ```
 
+> To get a few ideas, check out the [sample](#sample) at the bottom of this page or go straight to the [reference](#reference) content.
+
 Report issues with this plugin on the [Apache Cordova issue tracker](https://issues.apache.org/jira/issues/?jql=project%20%3D%20CB%20AND%20status%20in%20%28Open%2C%20%22In%20Progress%22%2C%20Reopened%29%20AND%20resolution%20%3D%20Unresolved%20AND%20component%20%3D%20%22Plugin%20File%20Transfer%22%20ORDER%20BY%20priority%20DESC%2C%20summary%20ASC%2C%20updatedDate%20DESC)
+
+##<a name="reference"></a>Reference
 
 ## Installation
 
@@ -174,8 +180,8 @@ ft.onprogress = function(progressEvent) {
     }
 };
 ft.upload(fileURL, uri, win, fail, options);
-```   
- 
+```
+
 ## FileUploadResult
 
 A `FileUploadResult` object is passed to the success callback of the
@@ -196,6 +202,8 @@ A `FileUploadResult` object is passed to the success callback of the
 
 - Does not support `responseCode` or `bytesSent`.
 
+- Does not support uploads of an empty file with __chunkedMode=true__ and `multipartMode=false`.
+
 ### Browser Quirks
 
 - __withCredentials__: _boolean_ that tells the browser to set the withCredentials flag on the XMLHttpRequest
@@ -203,6 +211,8 @@ A `FileUploadResult` object is passed to the success callback of the
 ### Windows Quirks
 
 - An option parameter with empty/null value is excluded in the upload operation due to the Windows API design.
+
+- __chunkedMode__ is not supported and all uploads are set to non-chunked mode.
 
 ## download
 
@@ -238,7 +248,7 @@ fileTransfer.download(
     function(error) {
         console.log("download error source " + error.source);
         console.log("download error target " + error.target);
-        console.log("upload error code" + error.code);
+        console.log("download error code" + error.code);
     },
     false,
     {
@@ -409,7 +419,7 @@ If you just need to display the image, take the FileEntry to call its toURL() fu
 
 ```js
 function displayImageByFileURL(fileEntry) {
-    var elem = document.getElementById('imageFile');
+    var elem = document.getElementById('imageElement');
     elem.src = fileEntry.toURL();
 }
 ```
@@ -445,7 +455,7 @@ function displayImage(blob) {
     var objURL = window.URL.createObjectURL(blob);
 
     // Displays image if result is a valid DOM string for an image.
-    var elem = document.getElementById('imageFile');
+    var elem = document.getElementById('imageElement');
     elem.src = objURL;
 }
 ```
@@ -509,7 +519,7 @@ function upload(fileEntry) {
     var success = function (r) {
         console.log("Successful upload...");
         console.log("Code = " + r.responseCode);
-        displayFileData(fileEntry.fullPath + " (content uploaded to server)");
+        // displayFileData(fileEntry.fullPath + " (content uploaded to server)");
     }
 
     var fail = function (error) {

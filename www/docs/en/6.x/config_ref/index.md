@@ -63,6 +63,7 @@ Attributes(type) <br/> <span class="sub-header">Only for platform:</span> | Desc
 id(string) | *Required* <br/> Specifies the app's reverse-domain identifier, and the `version` its full version number expressed in major/minor/patch notation.
 version(string) | *Required* <br/> Full version number expressed in major/minor/patch notation.
 android-versionCode(string) <br/> ==Android== | Alternative version for Android. Sets the [version code](http://developer.android.com/tools/publishing/versioning.html) for the application. See [the Android guide](../guide/platforms/android/index.html#setting-the-version-code) for information on how this attribute may be modified.
+defaultlocale <br /> ==iOS== | Specified the default language of the app, as an IANA language code.
 ios-CFBundleVersion(string) <br/> ==iOS== | Alternative version for iOS. For further details, see [iOS versioning](https://developer.apple.com/library/ios/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-102364).
 osx-CFBundleVersion(string) <br/> ==OS X== | Alternative version for OS X. For further details, see [OS X versioning](https://developer.apple.com/library/prerelease/mac/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-102364).
 windows-packageVersion(string) <br/> ==Windows== | Alternative version for Windows. For futher details, see [Windows versioning](https://msdn.microsoft.com/en-us/library/windows/apps/br211441.aspx)
@@ -160,11 +161,11 @@ Examples:
 
 ```xml
 <widget ...>
-   <access origin="*"></content>
+   <access origin="*"></access>
 </widget>
 
 <widget ...>
-   <access origin="http://google.com"></content>
+   <access origin="http://google.com"></access>
 </widget>
 ```
 
@@ -284,6 +285,7 @@ EnableViewportScale(boolean) <br/> ==iOS== | *Default: false* <br/>   Set to tru
 EnableWebGL(boolean) <br/> ==OS X== | *Default: false* <br/>  **(OS X 4.0.0+)** Set to true to enable WebGL on the web view.
 ErrorUrl(URL) <br/> ==Android== | *Default: null* <br/>  If set, will display the referenced page upon an error in the application instead of a dialog with the title "Application Error".
 ErrorUrl(string) <br/> ==iOS== | If set, will display the referenced local page upon an error in the application.
+ForegroundText(string) <br/> ==Windows== | *Default: "light"* <br/>   Works for Windows 8.1 projects only. Allowed values: "light", "dark". Set to "dark" if you use the `BackgroundColor="white"` or another light color to avoid Windows Store submissions errors.
 FullScreen(boolean) <br/> ==Android== | *Default: false* <br/>  Allows you to hide the status bar at the top of the screen. <br/> __Note__: Recommended platform-agnostic way to achieve this is to use the [StatusBar plugin][statusbar_plugin].
 GapBetweenPages(float) <br/> ==iOS== | *Default: 0* <br/>  The size of the gap, in points, between pages.
 HideKeyboardFormAccessoryBar(boolean) <br/> ==BlackBerry== | *Default: false* <br/>  Set to true to hide the additional toolbar that appears above the keyboard, helping users navigate from one form input to another.

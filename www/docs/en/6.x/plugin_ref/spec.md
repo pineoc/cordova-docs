@@ -70,16 +70,16 @@ Examples:
 Engine elements may also specify fuzzy matches using '>', '>=' etc. to avoid repetition, and to reduce maintenance when the underlying platform is updated.
 ```xml
 <engines>
-  <engine name="cordova-android" version="&gt;=1.8.0" />
+  <engine name="cordova-android" version=">=1.8.0" />
 </engines>
 ```
 
 The `<engine>` tags also has default support for all of the main platforms Cordova exists on. Specifying the cordova engine tag means that all versions of Cordova on any platform must satisfy the engine version attribute. You may also list specific platforms and their versions in order to override the catch-all cordova engine:
 ```xml
 <engines>
-  <engine name="cordova" version="&gt;=1.7.0" />
-  <engine name="cordova-android" version="&gt;=1.8.0" />
-  <engine name="cordova-ios" version="&gt;=1.7.1" />
+  <engine name="cordova" version=">=1.7.0" />
+  <engine name="cordova-android" version=">=1.8.0" />
+  <engine name="cordova-ios" version=">=1.7.1" />
 </engines>
 ```
 
@@ -87,8 +87,8 @@ Custom frameworks example:
 ```xml
 <engines>
   <engine name="my_custom_framework" version="1.0.0" platform="android" scriptSrc="path_to_my_custom_framework_version"/>
-  <engine name="another_framework" version="&gt;0.2.0" platform="ios|android" scriptSrc="path_to_another_framework_version"/>
-  <engine name="even_more_framework" version="&gt;=2.2.0" platform="*" scriptSrc="path_to_even_more_framework_version"/>
+  <engine name="another_framework" version=">0.2.0" platform="ios|android" scriptSrc="path_to_another_framework_version"/>
+  <engine name="even_more_framework" version=">=2.2.0" platform="*" scriptSrc="path_to_even_more_framework_version"/>
 </engines>
 ```
 
@@ -254,7 +254,7 @@ Example:
 </platform>
 ```
 
-### source-file
+## source-file
 
 Identifies executable source code that should be installed into a project.
 
@@ -275,14 +275,14 @@ Examples:
 <source-file src="src/ios/someLib.a" compiler-flags="-fno-objc-arc" />
 ```
 
-### header-file
+## header-file
 
 This is like `<source-file>` element but specifically for platforms such as iOS and Android that distinguish between source files, headers, and resources. This is not supported by Windows.
 
 Attributes(type) <br/> <span class="sub-header">Only for platform:</span> | Description
 ---------------- | ------------
 src(string) | *Required* <br/> Location of the file relative to `plugin.xml`. If the src file can't be found, the CLI stops and reverses the installation, issues a notification about the problem, and exits with a non-zero code.
-target(string) | Path to where the file will be copied in your directory.
+target-dir(string) | A directory into which the files should be copied, relative to the root of the Cordova project.
 
 Example:
 
@@ -291,7 +291,7 @@ For iOS:
 <header-file src="CDVFoo.h" />
 ```
 
-### resource-file
+## resource-file
 
 This is like `<source-file>` element, but specifically for platforms such as iOS and Android that distinguish between source files, headers, and resources.
 
@@ -315,7 +315,7 @@ For Windows:
 <resource-file src="src/windows/win81/MobServices.pri" target="win81/MobServices.pri" device-target="windows" versions="8.1" arch="x64"/>
 ```
 
-### config-file
+## config-file
 
 Identifies an XML-based configuration file to be modified, where in that document the modification should take place, and what should be modified.
 Two file types that have been tested for modification with this element are `xml` and `plist` files.
@@ -359,13 +359,119 @@ For windows-specific attributes:
     <Capability Name="picturesLibrary" />
     <DeviceCapability Name="webcam" />
 </config-file>
-<config-file target="package.appxmanifest" parent="/Package/Capabilities" versions="&gt;=8.1.0" device-target="phone">
+<config-file target="package.appxmanifest" parent="/Package/Capabilities" versions=">=8.1.0" device-target="phone">
     <DeviceCapability Name="webcam" />
 </config-file>
 ```
 The above example will set pre-8.1 platforms (Windows 8, specifically) to require the `webcam` device capability and the `picturesLibrary` general capability, and apply the `webcam` device capability only to Windows 8.1 projects that build for Windows Phone.  Windows desktop 8.1 systems are unmodified.
 
-### plugins-plist
+## edit-config
+Similar to `config-file`, `edit-config` identifies an XML-based configuration file to be modified, where in that document the modification should take place, and what should be modified. Instead of appending new children to an XML document tree, `edit-config` makes modifications to attributes of XML elements. There are two modes which will determine what type of attribute modification will be made, `merge` or `overwrite`. `edit-config` has one child and that child will contain the attributes to be added.
+
+Attributes(type) <br/> <span class="sub-header">Only for platform:</span> | Description
+---------------- | ------------
+file(string) | The file to be modified, and the path relative to the root of the Cordova project. If the specified file does not exist, the tool ignores the configuration change and continues installation. <br/> The target can include wildcard (`*`) elements. In this case, the CLI recursively searches through the project directory structure and uses the first match. <br/> On iOS, the location of configuration files relative to the project directory root is not known, so specifying a target of `config.xml` resolves to `cordova-ios-project/MyAppName/config.xml`.
+target(string) | An XPath selector referencing the target element to make attribute modifications to. If you use absolute selectors, you can use a wildcard (`*`) to specify the root element, e.g., `/*/plugins`. If the selector does not resolve to a child of the specified document, the tool stops and reverses the installation process, issues a warning, and exits with a non-zero code.
+mode(string) | The mode that determines what type of attribute modifications will be made. <br/> `merge` - Adds the specified attributes to the target element. Will replace the attribute values if the specified attributes already exist in the target element. <br/> `overwrite` - Replaces all attributes in the target element with the attributes specified.
+
+Example:
+
+```xml
+<!-- plugin-1 -->
+<edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
+    <uses-sdk android:minSdkVersion="16" android:maxSdkVersion="23" />
+</edit-config>
+<edit-config file="AndroidManifest.xml" target="/manifest/application/activity[@android:name='MainActivity']" mode="overwrite">
+    <activity android:name="MainActivity" android:label="NewLabel" android:configChanges="orientation|keyboardHidden" />
+</edit-config>
+```
+
+AndroidManifest.xml before adding plugin-1:
+```xml
+<manifest android:hardwareAccelerated="true" android:versionCode="1" android:versionName="0.0.1" package="io.cordova.hellocordova" xmlns:android="http://schemas.android.com/apk/res/android">
+    ...
+        <activity android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale" android:label="@string/activity_name" android:launchMode="singleTop" android:name="MainActivity" android:theme="@android:style/Theme.DeviceDefault.NoActionBar" android:windowSoftInputMode="adjustResize">
+            ...
+        </activity>
+    ...
+    <uses-sdk android:minSdkVersion="14" android:targetSdkVersion="23" />
+</manifest>
+```
+
+AndroidManifest.xml after adding plugin-1:
+```xml
+<manifest android:hardwareAccelerated="true" android:versionCode="1" android:versionName="0.0.1" package="io.cordova.hellocordova" xmlns:android="http://schemas.android.com/apk/res/android">
+    ...
+        <activity android:configChanges="orientation|keyboardHidden" android:label="NewLabel" android:name="MainActivity">
+            ...
+        </activity>
+    ...
+    <uses-sdk android:maxSdkVersion="23" android:minSdkVersion="16" android:targetSdkVersion="23" />
+</manifest>
+```
+#### Managing edit-config conflicts
+
+Multiple plugins can not modify the same attributes because it may cause problems with the application. An error will be thrown and plugin install will fail. The conflicting `edit-config` tags must be resolved before the plugin can be added. Make modifications to conflicting tags to resolve the conflict, then remove and re-add the updated plugins.
+
+There is an option for those who are certain that the plugin should be installed despite the conflicts. The `--force` flag can be used with `cordova plugin add`. Force adding the plugin will revert conflicting changes of other plugins so that it can be added without issues. `--force` should be used with caution as reverting changes of other plugins may cause the application to not work as expected.
+
+If the plugins ever get in a weird state, remove all plugins and re-add them.
+
+Example:
+
+Assume plugin-1 from above is already installed. Trying to install plugin-2 below will cause an error because plugin-1 has modified `uses-sdk` element in AndroidManifest.xml already.
+
+```xml
+<!-- plugin-2 -->
+<edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
+    <uses-sdk android:minSdkVersion="15" />
+</edit-config>
+```
+
+There are a couple ways plugin-2 can be added:
+
+One possible resolution of the conflict is to remove the `edit-config` tag from plugin-2 and merge it into plugin-1's `edit-config` tag (assuming plugin-1 has no issue with this change). Remove both plugins and re-add them with these changes. plugin-2 should be added cleanly this time.
+
+Removing `edit-config` from plugin-2 and merging it into plugin-1:
+```xml
+<!-- plugin-1 -->
+<edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
+    <uses-sdk android:minSdkVersion="15" android:maxSdkVersion="23" />
+</edit-config>
+<edit-config file="AndroidManifest.xml" target="/manifest/application/activity[@android:name='MainActivity']" mode="overwrite">
+    <activity android:name="MainActivity" android:label="NewLabel" android:configChanges="orientation|keyboardHidden" />
+</edit-config>
+```
+
+The resulting AndroidManifest.xml after removing and re-adding both plugins:
+```xml
+<manifest android:hardwareAccelerated="true" android:versionCode="1" android:versionName="0.0.1" package="io.cordova.hellocordova" xmlns:android="http://schemas.android.com/apk/res/android">
+    ...
+        <activity android:configChanges="orientation|keyboardHidden" android:label="NewLabel" android:name="MainActivity">
+            ...
+        </activity>
+    ...
+    <uses-sdk android:maxSdkVersion="23" android:minSdkVersion="15" android:targetSdkVersion="23" />
+</manifest>
+```
+
+The second way to add plugin-2 involves adding the plugin with `--force`. The conflicting `edit-config` change from plugin-1 will be reverted and plugin-2's change will be applied. The resulting AndroidManifest.xml will have the `uses-sdk` change from plugin-2 and the `activity` change from plugin-1. Notice only the `uses-sdk` change from plugin-1 is gone since it was the only conflicting change.
+
+The resulting AndroidManifest.xml after force adding plugin-2:
+```xml
+<manifest android:hardwareAccelerated="true" android:versionCode="1" android:versionName="0.0.1" package="io.cordova.hellocordova" xmlns:android="http://schemas.android.com/apk/res/android">
+    ...
+        <activity android:configChanges="orientation|keyboardHidden" android:label="NewLabel" android:name="MainActivity">
+            ...
+        </activity>
+    ...
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />
+</manifest>
+```
+
+Note: Reverted changes from `--force` are gone for good. They will not reappear after removing the plugin that was force added. If the reverted changes are needed, all associated plugins should be removed and re-added.
+
+## plugins-plist
 
 Specifies a key and value to append to the correct `AppInfo.plist` file in an iOS Cordova project. This is _outdated_ as it only applies to cordova-ios 2.2.0 and below. Use the `<config-file>` tag for newer versions of Cordova.
 
@@ -374,7 +480,7 @@ Example:
 <plugins-plist key="Foo" string="CDVFoo" />
 ```
 
-### lib-file
+## lib-file
 
 Like source, resource, and header files, but specifically for platforms such as BlackBerry 10 that use user-generated libraries. For the Windows platform, the `<lib-file>` element allows the inclusion of an `<SDKReference>` in the generated Windows project files.
 
@@ -394,12 +500,12 @@ Examples:
 For Windows:
 ```xml
 <lib-file src="Microsoft.WinJS.2.0, Version=1.0" arch="x86" />
-<lib-file src="Microsoft.WinJS.2.0, Version=1.0" versions="&gt;=8.1" />
+<lib-file src="Microsoft.WinJS.2.0, Version=1.0" versions=">=8.1" />
 <lib-file src="Microsoft.WinJS.2.0, Version=1.0" target="phone" />
 <lib-file src="Microsoft.WinJS.2.0, Version=1.0" target="win" versions="8.0" arch="x86" />
 ```
 
-### framework
+## framework
 
 Identifies a framework (usually part of the OS/platform) on which the plugin depends.
 
@@ -414,6 +520,7 @@ arch(string) <br/> ==windows== | Allowed values: `x86`, `x64` or `ARM`. <br/> In
 device-target(string) <br/> ==windows== | Allowed values: `win` (or `windows`), `phone` or `all`. <br/>  Indicates that the framework should only be included when building for the specified target device type.
 versions(string) <br/> ==windows== | Indicates that the framework should only be included when building for versions that match the specified version string. Value can be any valid node semantic version range string.
 target-dir(string) <br/> ==windows== | Indicates a subdirectory into which the framework should be copied. In practice, this is most important when plugin contains different framework versions for different chip architectures or device targets, but which have the same name. This allows you to specify different subfolders for each framework version so that they don't overlap each other.
+spec(string) <br/> ==ios== | Paired with `type="podspec"`, this is the spec string for the CocoaPod you want to install (static library only). CocoaPod support only exists in `cordova-ios 4.3.0` and `cordova-cli 6.4.0`. For your plugin, make sure  you add the appropriate `<engine>` tags and `package.json` [dependencies](../guide/hybrid/plugins/index.html#specifying-cordova-dependencies) to ensure backwards-compatible support.
 
 Examples:
 
@@ -422,6 +529,7 @@ For iOS:
 <framework src="libsqlite3.dylib" />
 <framework src="social.framework" weak="true" />
 <framework src="relative/path/to/my.framework" custom="true" />
+<framework src="GoogleCloudMessaging" type="podspec" spec="~> 1.2.0" />
 ```
 
 On Android (as of cordova-android@4.0.0), framework tags are used to include Maven dependencies, or to include bundled library projects.
@@ -447,7 +555,7 @@ On Windows, using `custom='true'` and `type='projectReference'` will add a refer
 Examples of using these Windows specific attributes:
 ```xml
 <framework src="src/windows/example.dll" arch="x64" />
-<framework src="src/windows/example.dll" versions="&gt;=8.0" />
+<framework src="src/windows/example.dll" versions=">=8.0" />
 <framework src="src/windows/example.vcxproj" type="projectReference" target="win" />
 <framework src="src/windows/example.vcxproj" type="projectReference" target="all" versions="8.1" arch="x86" />
 <framework src="src/windows/example.dll" target-dir="bin/x64" arch="x64" custom="true"/>

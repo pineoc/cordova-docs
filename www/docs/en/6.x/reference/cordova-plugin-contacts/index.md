@@ -27,7 +27,9 @@ description: Manage the contacts on the device.
 #         under the License.
 -->
 
-[![Build Status](https://travis-ci.org/apache/cordova-plugin-contacts.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-contacts)
+|Android|iOS| Windows 8.1 Store | Windows 8.1 Phone | Windows 10 Store | Travis CI |
+|:-:|:-:|:-:|:-:|:-:|:-:|
+|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=android,PLUGIN=cordova-plugin-contacts)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=android,PLUGIN=cordova-plugin-contacts/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=ios,PLUGIN=cordova-plugin-contacts)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=ios,PLUGIN=cordova-plugin-contacts/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-8.1-store,PLUGIN=cordova-plugin-contacts)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-8.1-store,PLUGIN=cordova-plugin-contacts/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-8.1-phone,PLUGIN=cordova-plugin-contacts)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-8.1-phone,PLUGIN=cordova-plugin-contacts/)|[![Build Status](http://cordova-ci.cloudapp.net:8080/buildStatus/icon?job=cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-contacts)](http://cordova-ci.cloudapp.net:8080/job/cordova-periodic-build/PLATFORM=windows-10-store,PLUGIN=cordova-plugin-contacts/)|[![Build Status](https://travis-ci.org/apache/cordova-plugin-contacts.svg?branch=master)](https://travis-ci.org/apache/cordova-plugin-contacts)
 
 # cordova-plugin-contacts
 
@@ -72,6 +74,17 @@ It is also possible to install via repo url directly ( unstable )
 
     cordova plugin add https://github.com/apache/cordova-plugin-contacts.git
 
+
+### iOS Quirks
+
+Since iOS 10 it's mandatory to add a `NSContactsUsageDescription` entry in the info.plist.
+
+`NSContactsUsageDescription` describes the reason that the app accesses the user’s contacts. When the system prompts the user to allow access, this string is displayed as part of the dialog box. To add this entry you can pass the variable `CONTACTS_USAGE_DESCRIPTION` on plugin install.
+
+Example:
+`cordova plugin add cordova-plugin-contacts --variable CONTACTS_USAGE_DESCRIPTION="your usage message"`
+
+If you don't pass the variable, the plugin will add an empty string as value.
 
 ### Firefox OS Quirks
 
