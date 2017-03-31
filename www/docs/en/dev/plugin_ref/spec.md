@@ -302,6 +302,7 @@ target(string) | Path to where the file will be copied in your directory.
 arch(string) <br/> ==windows== | Allowed values: `x86`, `x64` or `ARM`. <br/> Indicates that the file should only be included when building for the specified architecture.
 device-target <br/> ==windows== | Allowed values: `win` (or `windows`), `phone` or `all`. <br/> Indicates that the file should only be included when building for the specified target device type.
 versions <br/> ==windows== | Indicates that the file should only be included when building for versions that match the specified version string. Value can be any valid node semantic version range string.
+reference <br/> ==windows== | Indicates that the file should be referenced from the src rather than copied to the target destination. The file will appear in Visual Studio with the file name specified by target, however will point to the respective src, depending on the architecture.
 
 Examples:
 
@@ -313,6 +314,10 @@ For Android:
 For Windows:
 ```xml
 <resource-file src="src/windows/win81/MobServices.pri" target="win81\MobServices.pri" device-target="windows" versions="8.1" arch="x64"/>
+
+<!-- Example of referencing  -->
+<resource-file src="x86/foo.dll" target="foo.dll" arch="x86" reference="true" />
+<resource-file src="x64/foo.dll" target="foo.dll" arch="x64" reference="true" />
 ```
 __NOTE__: `target` should use backslashes to avoid DEP2100 deploy error in Visual Studio.
 
@@ -492,6 +497,8 @@ arch(string) | The architecture for which the `.so` file has been built, either 
 device-target(string) <br/> ==windows== | Allowed values: `win` (or `windows`), `phone` or `all`. <br/> Indicates that the `<SDKReference>` should only be included when building for the specified target device type.
 versions(string) <br/> ==windows== | Indicates that the `<SDKReference>` should only be included when building for versions that match the specified version string. Value can be any valid node semantic version range string.
 
+For Android, the `<lib-file>` element is used for installing **.jar** files in the project's **libs directory**. It supports only the `src` attribute which contains the relative path to the .jar file.
+
 Examples:
 ```xml
 <lib-file src="src/BlackBerry10/native/device/libfoo.so" arch="device" />
@@ -521,6 +528,7 @@ arch(string) <br/> ==windows== | Allowed values: `x86`, `x64` or `ARM`. <br/> In
 device-target(string) <br/> ==windows== | Allowed values: `win` (or `windows`), `phone` or `all`. <br/>  Indicates that the framework should only be included when building for the specified target device type.
 versions(string) <br/> ==windows== | Indicates that the framework should only be included when building for versions that match the specified version string. Value can be any valid node semantic version range string.
 target-dir(string) <br/> ==windows== | Indicates a subdirectory into which the framework should be copied. In practice, this is most important when plugin contains different framework versions for different chip architectures or device targets, but which have the same name. This allows you to specify different subfolders for each framework version so that they don't overlap each other.
+implementation(string) <br/> ==windows== | Sets the relative path to `.dll` file that contains implementation for WinMD component, written in C++.
 spec(string) <br/> ==ios== | Paired with `type="podspec"`, this is the spec string for the CocoaPod you want to install (static library only). CocoaPod support only exists in `cordova-ios 4.3.0` and `cordova-cli 6.4.0`. For your plugin, make sure  you add the appropriate `<engine>` tags and `package.json` [dependencies](../guide/hybrid/plugins/index.html#specifying-cordova-dependencies) to ensure backwards-compatible support.
 
 Examples:
@@ -560,6 +568,17 @@ Examples of using these Windows specific attributes:
 <framework src="src/windows/example.vcxproj" type="projectReference" target="win" />
 <framework src="src/windows/example.vcxproj" type="projectReference" target="all" versions="8.1" arch="x86" />
 <framework src="src/windows/example.dll" target-dir="bin/x64" arch="x64" custom="true"/>
+```
+
+Another example of using Windows-specific attributes to add a reference to WinMD components, written in C# and C++, whose API will be available at runtime:
+
+```xml
+<!-- C# component that consists of one .winmd file -->
+<framework src="lib\windows\component.winmd" versions="<10.0" />
+<!-- C++ component with separated metadata and implementation-->
+<framework src="lib\windows\x86\cppcomponent.winmd"
+           implementation="lib\windows\x86\cppcomponent.dll"
+           target-dir="component\x86" arch="x86" versions=">=10.0" />
 ```
 
 ## info
